@@ -1,0 +1,13 @@
+packages:
+  - "."
+  - "server"
+  - "client"
+
+allowBuilds:
+  '@clerk/shared': true
+  '@prisma/client': true
+  '@prisma/engines': true
+  core-js: set this to true or false
+  esbuild: true
+  prisma: true
+  sharp: true

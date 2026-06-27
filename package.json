@@ -1,0 +1,28 @@
+{
+  "name": "servicedock",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.9.0",
+  "scripts": {
+    "dev:server": "pnpm --filter @servicedock/server dev",
+    "dev:client": "pnpm --filter @servicedock/client dev",
+    "build": "pnpm --filter @servicedock/client build && pnpm --filter @servicedock/server build",
+    "typecheck": "pnpm --filter @servicedock/server typecheck && pnpm --filter @servicedock/client typecheck",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy",
+    "seed": "tsx prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "6.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "prisma": "6.2.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.3"
+  }
+}
