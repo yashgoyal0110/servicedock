@@ -2,8 +2,9 @@ import { type FormEvent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { AuthAside } from '../components/AuthAside'
-import { Alert, Button, Card, Field, Input } from '../components/ui'
+import { Alert, Button, Card, Field, Input, PasswordRequirements } from '../components/ui'
 import { useAuth } from '../context/auth'
+import { isStrongPassword } from '../lib/password'
 
 export function Register() {
   const { register } = useAuth()
@@ -11,12 +12,17 @@ export function Register() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setError(null)
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.')
+      return
+    }
     setSubmitting(true)
     try {
       await register(name, email, password)
@@ -70,19 +76,25 @@ export function Register() {
               />
             </Field>
 
-            <Field hint="At least 8 characters" htmlFor="password" label="Password">
+            <Field htmlFor="password" label="Password">
               <Input
                 autoComplete="new-password"
                 id="password"
-                minLength={8}
+                minLength={10}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 type="password"
                 value={password}
               />
+              <PasswordRequirements password={password} />
             </Field>
 
-            <Button block loading={submitting} type="submit">
+            <Field htmlFor="confirm-password" label="Confirm password">
+              <Input autoComplete="new-password" id="confirm-password" onChange={(e) => setConfirmPassword(e.target.value)} required type="password" value={confirmPassword} />
+              {confirmPassword && <span className={`password-match ${password === confirmPassword ? 'met' : ''}`}>{password === confirmPassword ? 'Passwords match' : 'Passwords do not match'}</span>}
+            </Field>
+
+            <Button block disabled={!isStrongPassword(password) || password !== confirmPassword} loading={submitting} type="submit">
               {submitting ? 'Creating…' : 'Create account'}
             </Button>
 

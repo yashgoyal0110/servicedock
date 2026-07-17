@@ -5,6 +5,8 @@ import type {
   SelectHTMLAttributes,
   TextareaHTMLAttributes,
 } from 'react'
+import { CheckIcon, XIcon } from './icons'
+import { PASSWORD_RULES } from '../lib/password'
 
 function cx(...parts: (string | false | undefined)[]) {
   return parts.filter(Boolean).join(' ')
@@ -156,6 +158,17 @@ export function Alert({
 
 export function Spinner() {
   return <span aria-label="Loading" className="spinner" role="status" />
+}
+
+export function PasswordRequirements({ password }: { password: string }) {
+  return (
+    <div aria-live="polite" className="password-rules">
+      {PASSWORD_RULES.map((rule) => {
+        const met = rule.test(password)
+        return <span className={met ? 'met' : ''} key={rule.label}>{met ? <CheckIcon size={13} /> : <XIcon size={13} />}{rule.label}</span>
+      })}
+    </div>
+  )
 }
 
 export function PageHead({

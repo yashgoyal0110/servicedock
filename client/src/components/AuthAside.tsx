@@ -1,15 +1,9 @@
-import { MapPinIcon, QrIcon, SparklesIcon, StoreIcon } from './icons'
+import { StoreIcon } from './icons'
 
 type AuthAsideProps = {
   headline?: string
   subtitle?: string
 }
-
-const SAMPLE_SERVICES = [
-  ['Oil change', '$49'],
-  ['Brake inspection', '$89'],
-  ['Tire rotation', '$29'],
-] as const
 
 /**
  * Marketing panel shown beside the auth forms on wide screens. Uses an
@@ -35,39 +29,12 @@ export function AuthAside({
         <p className="auth-sub">{subtitle}</p>
       </div>
 
-      <div className="auth-preview">
-        <div className="auth-preview-head">
-          <span className="auth-preview-logo">R</span>
-          <div>
-            <strong>Riverside Auto Care</strong>
-            <div className="auth-preview-sub">
-              <MapPinIcon size={12} /> Austin, Texas
-            </div>
-          </div>
-          <span className="auth-preview-qr">
-            <QrIcon size={20} />
-          </span>
-        </div>
-        {SAMPLE_SERVICES.map(([name, price]) => (
-          <div className="auth-preview-row" key={name}>
-            <span>{name}</span>
-            <b>{price}</b>
-          </div>
-        ))}
+      <div className="auth-outcomes">
+        <div><span>01</span><strong>Publish a professional service catalog</strong><p>Clear pricing and descriptions customers can browse on any device.</p></div>
+        <div><span>02</span><strong>Turn local interest into conversations</strong><p>Every location gets one shareable link and a direct contact path.</p></div>
+        <div><span>03</span><strong>Keep the whole business consistent</strong><p>Update services once without replacing printed menus everywhere.</p></div>
       </div>
-
-      <div className="auth-features">
-        <span className="auth-chip">
-          <QrIcon size={14} /> QR menus
-        </span>
-        <span className="auth-chip">
-          <StoreIcon size={14} /> Multi-location
-        </span>
-        <span className="auth-chip">
-          <SparklesIcon size={14} /> AI import
-        </span>
-      </div>
-      <p className="auth-proof">Built for independent teams who care how their business shows up.</p>
+      <p className="auth-proof">For independent service businesses that want to look established from day one.</p>
     </aside>
   )
 }

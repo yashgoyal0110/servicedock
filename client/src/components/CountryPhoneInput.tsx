@@ -51,6 +51,11 @@ type Props = {
  */
 export function CountryPhoneInput({ value, onChange, id, required }: Props) {
   const { dialCode, national } = useMemo(() => splitPhone(value), [value])
+  const countryDigits = dialCode.replace(/\D/g, '').length
+  const totalDigits = countryDigits + national.length
+  const minNationalLength = Math.max(1, 7 - countryDigits)
+  const maxNationalLength = 15 - countryDigits
+  const validLength = totalDigits >= 7 && totalDigits <= 15
 
   const emit = (nextDial: string, nextNational: string) => {
     const digits = nextNational.replace(/\D/g, '')
@@ -58,7 +63,8 @@ export function CountryPhoneInput({ value, onChange, id, required }: Props) {
   }
 
   return (
-    <div className="row" style={{ alignItems: 'stretch', gap: '0.5rem' }}>
+    <div className="phone-input-wrap">
+      <div className="row" style={{ alignItems: 'stretch', gap: '0.5rem' }}>
       <Select
         aria-label="Country code"
         onChange={(e) => emit(e.target.value, national)}
@@ -72,15 +78,23 @@ export function CountryPhoneInput({ value, onChange, id, required }: Props) {
         ))}
       </Select>
       <Input
+        aria-describedby={id ? `${id}-help` : undefined}
+        aria-invalid={national.length > 0 && !validLength}
         autoComplete="tel-national"
         id={id}
         inputMode="tel"
+        maxLength={maxNationalLength}
+        minLength={minNationalLength}
         onChange={(e) => emit(dialCode, e.target.value)}
         placeholder="Phone number"
         required={required}
         type="tel"
         value={national}
       />
+      </div>
+      <span className={`phone-help ${validLength ? 'valid' : ''}`} id={id ? `${id}-help` : undefined}>
+        {totalDigits}/15 digits including country code
+      </span>
     </div>
   )
 }

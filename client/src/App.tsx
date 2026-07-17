@@ -5,6 +5,7 @@ import { useAuth } from './context/auth'
 import { Account } from './pages/Account'
 import { Billing } from './pages/Billing'
 import { Login } from './pages/Login'
+import { ForgotPassword } from './pages/ForgotPassword'
 import { PublicCity } from './pages/PublicCity'
 import { PublicStore } from './pages/PublicStore'
 import { Register } from './pages/Register'
@@ -29,6 +30,7 @@ export function App() {
     <Routes>
       <Route element={<Navigate replace to="/dashboard/stores" />} path="/" />
       <Route element={<Login />} path="/sign-in" />
+      <Route element={<ForgotPassword />} path="/forgot-password" />
       <Route element={<Register />} path="/sign-up" />
       <Route element={<Verify />} path="/verify" />
 

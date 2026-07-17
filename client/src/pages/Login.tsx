@@ -72,6 +72,8 @@ export function Login() {
               />
             </Field>
 
+            <Link className="forgot-link" to="/forgot-password">Forgot password?</Link>
+
             <Button block loading={submitting} type="submit">
               {submitting ? 'Signing in…' : 'Sign in'}
             </Button>

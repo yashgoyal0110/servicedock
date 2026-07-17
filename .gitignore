@@ -38,3 +38,6 @@ gcp-key*.json
 astral-hold-*.json
 *-service-account*.json
 tmp
+
+1.sh
+2.sh
