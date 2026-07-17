@@ -824,6 +824,9 @@ h2 { font-size: 1.3rem; }
 .sidebar .nav-link.active { background: #fff; color: var(--ink); box-shadow: 0 10px 24px rgba(0,0,0,.13); }
 .sidebar-promo { margin: 1rem 0 .8rem; padding: 1rem; border: 1px solid rgba(255,255,255,.1); border-radius: 14px; background: rgba(255,255,255,.055); }
 .sidebar-promo__eyebrow { display: block; color: var(--brand-200); text-transform: uppercase; letter-spacing: .1em; font-size: .61rem; font-weight: 800; margin-bottom: .35rem; }
+.sidebar-promo__eyebrow svg { margin-right: .3rem; vertical-align: -2px; }
+.sidebar-promo--locked { border-color: rgba(255,197,105,.24); background: rgba(255,197,105,.08); }
+.sidebar-promo--locked .sidebar-promo__eyebrow { color: #ffc569; }
 .sidebar-promo strong { font-size: .83rem; }
 .sidebar-promo p { color: rgba(255,255,255,.52); font-size: .72rem; line-height: 1.45; margin-top: .3rem; }
 .topbar { height: 76px; border: 0; background: rgba(243,244,238,.78); backdrop-filter: blur(18px); padding: 0 2.2rem; }
@@ -864,6 +867,17 @@ h2 { font-size: 1.3rem; }
 
 .empty-card { padding-bottom: 2rem; border-style: dashed; background: rgba(255,255,255,.65); }
 .empty-card__action { display: flex; justify-content: center; }
+.publishing-lock { display: flex; align-items: center; gap: .75rem; max-width: 410px; margin: 1.25rem auto 0; padding: .8rem 1rem; border: 1px solid var(--line); border-radius: 12px; color: var(--muted); background: var(--surface-2); }
+.publishing-lock svg { flex: none; color: var(--warning); }
+.publishing-lock strong, .publishing-lock span { display: block; }
+.publishing-lock strong { color: var(--ink); font-size: .78rem; }
+.publishing-lock span { margin-top: .15rem; font-size: .7rem; }
+
+.otp-input-group { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .5rem; }
+.otp-input-group input { letter-spacing: .45em; font-size: 1.2rem; text-align: center; }
+.otp-input-group small { grid-column: 1 / -1; }
+.otp-paste-button { display: inline-flex; align-items: center; justify-content: center; gap: .35rem; min-width: 108px; padding: 0 .8rem; border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); background: var(--surface-2); font: inherit; font-size: .72rem; font-weight: 750; cursor: pointer; }
+.otp-paste-button:hover { border-color: var(--line-strong); background: #fff; }
 .empty svg { width: 52px; height: 52px; padding: 12px; color: var(--brand-700); background: var(--brand-100); border-radius: 16px; }
 
 .location-card { overflow: hidden; transition: transform .25s ease, box-shadow .25s ease; }

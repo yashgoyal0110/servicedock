@@ -5,6 +5,7 @@ import { AddressSearch } from '../components/AddressSearch'
 import { CountryPhoneInput } from '../components/CountryPhoneInput'
 import {
   MapPinIcon,
+  LockIcon,
   PhoneIcon,
   PlusIcon,
   StoreIcon,
@@ -83,6 +84,7 @@ export function Stores() {
       setForm(EMPTY_FORM)
       setShowForm(false)
       load()
+      window.dispatchEvent(new Event('servicedock:locations-changed'))
     } catch (err) {
       // Surfaces the plan-limit message from the server (403 PLAN_LIMIT).
       setError(err instanceof Error ? err.message : 'Failed to create location')
@@ -94,6 +96,7 @@ export function Stores() {
     try {
       await api.del(`/stores/${id}`)
       load()
+      window.dispatchEvent(new Event('servicedock:locations-changed'))
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to delete')
     }
@@ -137,6 +140,10 @@ export function Stores() {
               Add a location and we’ll turn its services into a polished, shareable customer experience.
             </EmptyState>
             <div className="empty-card__action"><Button onClick={openForm}><PlusIcon size={16} /> Create your first location</Button></div>
+            <div className="publishing-lock" role="status">
+              <LockIcon size={18} />
+              <div><strong>QR code and public URL locked</strong><span>Add your first location to unlock customer sharing.</span></div>
+            </div>
           </Card>
         ) : (
           <div

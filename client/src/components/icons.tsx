@@ -142,6 +142,13 @@ export const CopyIcon = (p: IconProps) => (
   </svg>
 )
 
+export const LockIcon = (p: IconProps) => (
+  <svg {...base(p)} aria-hidden="true">
+    <rect x="4" y="10" width="16" height="11" rx="2" />
+    <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+  </svg>
+)
+
 export const ExternalLinkIcon = (p: IconProps) => (
   <svg {...base(p)} aria-hidden="true">
     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />

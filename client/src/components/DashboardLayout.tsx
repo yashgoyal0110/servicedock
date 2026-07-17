@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 
 import { useAuth } from '../context/auth'
+import { api } from '../lib/api'
 import {
   CreditCardIcon,
+  LockIcon,
   LogOutIcon,
   MenuIcon,
   StoreIcon,
@@ -20,7 +22,19 @@ const NAV = [
 export function DashboardLayout() {
   const { user, logout } = useAuth()
   const [open, setOpen] = useState(false)
+  const [locationCount, setLocationCount] = useState<number | null>(null)
   const initial = (user?.name || user?.email || '?').charAt(0).toUpperCase()
+
+  useEffect(() => {
+    const refreshLocationCount = () => {
+      api.get<{ stores: Array<{ id: string }> }>('/stores')
+        .then(({ stores }) => setLocationCount(stores.length))
+        .catch(() => setLocationCount(null))
+    }
+    refreshLocationCount()
+    window.addEventListener('servicedock:locations-changed', refreshLocationCount)
+    return () => window.removeEventListener('servicedock:locations-changed', refreshLocationCount)
+  }, [])
 
   return (
     <div className="app-shell">
@@ -51,10 +65,10 @@ export function DashboardLayout() {
           </NavLink>
         ))}
         <div className="spacer" />
-        <div className="sidebar-promo">
-          <span className="sidebar-promo__eyebrow">Your storefront</span>
-          <strong>Ready to be discovered</strong>
-          <p>Keep your services fresh and share your QR anywhere.</p>
+        <div className={`sidebar-promo ${locationCount === 0 ? 'sidebar-promo--locked' : ''}`}>
+          <span className="sidebar-promo__eyebrow">{locationCount === 0 ? <><LockIcon size={12} /> Publishing locked</> : 'Your storefront'}</span>
+          <strong>{locationCount === null ? 'Checking storefront…' : locationCount === 0 ? 'Create a location first' : 'Ready to be discovered'}</strong>
+          <p>{locationCount === null ? 'Loading your publishing status.' : locationCount === 0 ? 'Your QR code and public URL unlock with your first location.' : 'Keep your services fresh and share your QR anywhere.'}</p>
         </div>
         <button className="nav-link" onClick={() => logout()} type="button">
           <LogOutIcon size={18} />
