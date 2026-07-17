@@ -26,7 +26,7 @@ router.get('/stores/:city', async (req, res, next) => {
     const { city } = cityParams.parse(req.params)
 
     const stores = await db.store.findMany({
-      where: { citySlug: city, deletedAt: null, status: 'ACTIVE' },
+      where: { citySlug: city, deletedAt: null, status: 'ACTIVE', products: { some: { deletedAt: null } } },
       orderBy: { name: 'asc' },
       include: { logo: true },
     })
@@ -57,6 +57,7 @@ router.get('/stores/:city/:idOrSlug', async (req, res, next) => {
         citySlug: city,
         deletedAt: null,
         status: 'ACTIVE',
+        products: { some: { deletedAt: null } },
         OR: [{ slug: idOrSlug }, { id: idOrSlug }],
       },
       include: {

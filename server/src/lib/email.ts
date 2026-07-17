@@ -44,7 +44,15 @@ async function send(to: string, subject: string, html: string, text: string) {
     )
     return
   }
-  await transporter.sendMail({ from: MAIL_FROM, to, subject, html, text })
+  const info = await transporter.sendMail({ from: MAIL_FROM, to, subject, html, text })
+  console.info('[EMAIL] Delivery accepted by SMTP provider', {
+    messageId: info.messageId,
+    accepted: info.accepted,
+    rejected: info.rejected,
+  })
+  if (!info.accepted.length) {
+    throw new Error('The email provider did not accept the recipient address.')
+  }
 }
 
 function otpEmailHtml(name: string, code: string): string {

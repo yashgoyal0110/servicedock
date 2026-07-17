@@ -873,11 +873,7 @@ h2 { font-size: 1.3rem; }
 .publishing-lock strong { color: var(--ink); font-size: .78rem; }
 .publishing-lock span { margin-top: .15rem; font-size: .7rem; }
 
-.otp-input-group { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .5rem; }
-.otp-input-group input { letter-spacing: .45em; font-size: 1.2rem; text-align: center; }
-.otp-input-group small { grid-column: 1 / -1; }
-.otp-paste-button { display: inline-flex; align-items: center; justify-content: center; gap: .35rem; min-width: 108px; padding: 0 .8rem; border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); background: var(--surface-2); font: inherit; font-size: .72rem; font-weight: 750; cursor: pointer; }
-.otp-paste-button:hover { border-color: var(--line-strong); background: #fff; }
+.otp-code-input { letter-spacing: .5em; font-size: 1.2rem; text-align: center; }
 .empty svg { width: 52px; height: 52px; padding: 12px; color: var(--brand-700); background: var(--brand-100); border-radius: 16px; }
 
 .location-card { overflow: hidden; transition: transform .25s ease, box-shadow .25s ease; }
@@ -995,6 +991,8 @@ h2 { font-size: 1.3rem; }
 .workspace-tabs { display: grid; grid-template-columns: repeat(5, 1fr); padding: .75rem; gap: .45rem; border-bottom: 1px solid var(--line); background: #f7f8f3; }
 .workspace-tab { display: flex; align-items: center; gap: .7rem; min-width: 0; padding: .8rem; border: 1px solid transparent; border-radius: 13px; background: transparent; color: var(--muted); font: inherit; text-align: left; cursor: pointer; transition: background .2s, border-color .2s, transform .2s; }
 .workspace-tab:hover { color: var(--ink); background: rgba(255,255,255,.7); }
+.workspace-tab:disabled { opacity: .58; cursor: not-allowed; }
+.workspace-tab:disabled:hover { color: var(--muted); background: transparent; }
 .workspace-tab.active { color: var(--ink); border-color: var(--line); background: #fff; box-shadow: var(--shadow-xs); transform: translateY(-1px); }
 .workspace-tab__number { display: grid; place-items: center; flex: none; width: 31px; height: 31px; border-radius: 10px; background: #e6e9e2; font-size: .7rem; font-weight: 800; }
 .workspace-tab__number.complete { color: #fff; background: var(--success); }
@@ -1046,6 +1044,11 @@ h2 { font-size: 1.3rem; }
 .publish-copy { align-self: center; padding: 1rem; }
 .publish-copy > svg { width: 52px; height: 52px; padding: 13px; border-radius: 15px; color: #fff; background: var(--ink); }
 .publish-copy h3 { margin: 1rem 0 .5rem; font-size: 1.65rem; }
+.setup-task:disabled { opacity: .65; cursor: not-allowed; }
+.publish-locked-panel { max-width: 520px; margin: 0 auto; padding-block: 4rem; text-align: center; }
+.publish-locked-panel > svg { margin-bottom: 1rem; color: var(--warning); }
+.publish-locked-panel h2 { margin: .5rem 0; }
+.publish-locked-panel .btn { margin-top: 1rem; }
 
 /* Location hours and reusable live-capacity controls */
 .availability-panel { display: grid; gap: 1.25rem; }

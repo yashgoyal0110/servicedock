@@ -2,8 +2,7 @@ import { type FormEvent, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { AuthAside } from '../components/AuthAside'
-import { OtpInput } from '../components/OtpInput'
-import { Alert, Button, Card, Field } from '../components/ui'
+import { Alert, Button, Card, Field, Input } from '../components/ui'
 import { useAuth } from '../context/auth'
 
 export function Verify() {
@@ -84,7 +83,7 @@ export function Verify() {
             {notice && <Alert tone="success">{notice}</Alert>}
 
             <Field htmlFor="code" label="Verification code">
-              <OtpInput id="code" onChange={setCode} value={code} />
+              <Input autoComplete="one-time-code" className="otp-code-input" id="code" inputMode="numeric" maxLength={6} onChange={(event) => setCode(event.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="000000" required value={code} />
             </Field>
 
             <Button

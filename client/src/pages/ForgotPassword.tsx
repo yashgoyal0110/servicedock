@@ -2,7 +2,6 @@ import { type FormEvent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { AuthAside } from '../components/AuthAside'
-import { OtpInput } from '../components/OtpInput'
 import { Alert, Button, Card, Field, Input, PasswordRequirements } from '../components/ui'
 import { api } from '../lib/api'
 import { isStrongPassword } from '../lib/password'
@@ -44,7 +43,7 @@ export function ForgotPassword() {
       </form> : <form className="stack" onSubmit={resetPassword}>
         <div className="stack-sm"><span className="page-kicker">Check your inbox</span><h1>Create a new password</h1><p className="muted">Enter the code sent to <strong>{email}</strong>.</p></div>
         {error && <Alert tone="error">{error}</Alert>}
-        <Field htmlFor="reset-code" label="Six-digit code"><OtpInput id="reset-code" onChange={setCode} value={code} /></Field>
+        <Field htmlFor="reset-code" label="Six-digit code"><Input autoComplete="one-time-code" className="otp-code-input" id="reset-code" inputMode="numeric" maxLength={6} onChange={(event) => setCode(event.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="000000" required value={code} /></Field>
         <Field htmlFor="new-password" label="New password"><Input id="new-password" minLength={10} onChange={(e) => setPassword(e.target.value)} required type="password" value={password} /><PasswordRequirements password={password} /></Field>
         <Field htmlFor="confirm-password" label="Confirm password"><Input id="confirm-password" onChange={(e) => setConfirm(e.target.value)} required type="password" value={confirm} />{confirm && <span className={`password-match ${password === confirm ? 'met' : ''}`}>{password === confirm ? 'Passwords match' : 'Passwords do not match'}</span>}</Field>
         <Button block disabled={code.length !== 6 || !isStrongPassword(password) || password !== confirm} loading={loading} type="submit">Update password</Button><button className="btn btn--ghost" onClick={() => setStep('email')} type="button">Use a different email</button>

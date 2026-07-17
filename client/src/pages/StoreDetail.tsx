@@ -5,6 +5,7 @@ import {
   ArrowLeftIcon,
   CheckIcon,
   EditIcon,
+  LockIcon,
   MapPinIcon,
   PlusIcon,
   QrIcon,
@@ -200,12 +201,13 @@ export function StoreDetail() {
     label: string
     description: string
     complete: boolean
+    locked?: boolean
   }> = [
     { id: 'overview', label: 'Overview', description: 'Your progress', complete: true },
     { id: 'brand', label: 'Brand', description: 'Logo & banner', complete: brandReady },
     { id: 'services', label: 'Services', description: `${products.length} listed`, complete: servicesReady },
     { id: 'availability', label: 'Availability', description: 'Hours & capacity', complete: false },
-    { id: 'publish', label: 'Publish', description: 'Share & QR', complete: brandReady && servicesReady },
+    { id: 'publish', label: 'Publish', description: servicesReady ? 'Share & QR' : 'Add a service first', complete: brandReady && servicesReady, locked: !servicesReady },
   ]
 
   return (
@@ -250,13 +252,14 @@ export function StoreDetail() {
                   aria-controls={`panel-${tab.id}`}
                   aria-selected={activeTab === tab.id}
                   className={`workspace-tab ${activeTab === tab.id ? 'active' : ''}`}
+                  disabled={tab.locked}
                   id={`tab-${tab.id}`}
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   role="tab"
                   type="button"
                 >
-                  <span className={`workspace-tab__number ${tab.complete ? 'complete' : ''}`}>{tab.complete ? <CheckIcon size={14} /> : index + 1}</span>
+                  <span className={`workspace-tab__number ${tab.complete ? 'complete' : ''}`}>{tab.locked ? <LockIcon size={14} /> : tab.complete ? <CheckIcon size={14} /> : index + 1}</span>
                   <span><strong>{tab.label}</strong><small>{tab.description}</small></span>
                 </button>
               ))}
@@ -287,8 +290,8 @@ export function StoreDetail() {
                       <span className={servicesReady ? 'done' : ''}>{servicesReady ? <CheckIcon size={16} /> : '2'}</span>
                       <div><strong>Build your service catalog</strong><small>Add services manually or import an existing menu.</small></div><b>→</b>
                     </button>
-                    <button className="setup-task" onClick={() => setActiveTab('publish')} type="button">
-                      <span>3</span><div><strong>Share with customers</strong><small>Copy your public link or download its QR code.</small></div><b>→</b>
+                    <button className="setup-task" disabled={!servicesReady} onClick={() => setActiveTab('publish')} type="button">
+                      <span>{servicesReady ? '3' : <LockIcon size={16} />}</span><div><strong>{servicesReady ? 'Share with customers' : 'Publishing locked'}</strong><small>{servicesReady ? 'Copy your public link or download its QR code.' : 'Publish at least one service to unlock the public URL and QR code.'}</small></div><b>→</b>
                     </button>
                   </section>
                 </div>
@@ -341,12 +344,15 @@ export function StoreDetail() {
                 <AvailabilityManager onContinue={() => setActiveTab('publish')} storeId={store.id} />
               )}
 
-              {activeTab === 'publish' && (
+              {activeTab === 'publish' && servicesReady && (
                 <div className="phase-panel publish-panel">
                   <div className="phase-panel__head"><div><span className="page-kicker">Phase 3</span><h2>Put your storefront in customers’ hands</h2><p className="muted">Your link is live. Share it online or place the QR code at your counter.</p></div><span className="publish-live"><i /> Live</span></div>
                   <div className="publish-layout"><div className="publish-copy"><QrIcon size={28} /><h3>One scan. Your whole catalog.</h3><p className="muted">Download the code for signage, receipts, business cards, or your front window.</p><div className="publish-tip"><SparklesIcon size={18} /><span><strong>Tip</strong> Test the link on your phone before printing it at scale.</span></div></div><div className="qr-card"><StoreQr url={publicUrl} /></div></div>
                   <div className="phase-footer"><Button onClick={() => setActiveTab('availability')} variant="ghost">Back</Button><a className="btn btn--primary" href={publicUrl} rel="noreferrer" target="_blank">Open public page <span aria-hidden="true">↗</span></a></div>
                 </div>
+              )}
+              {activeTab === 'publish' && !servicesReady && (
+                <div className="phase-panel publish-locked-panel"><LockIcon size={32} /><span className="page-kicker">Publishing locked</span><h2>Add your first service</h2><p className="muted">Your public URL and QR code stay unavailable until this location has at least one active service.</p><Button onClick={() => setActiveTab('services')}>Go to services</Button></div>
               )}
             </div>
           </Card>
